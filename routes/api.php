@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::namespace('Api')->name('api')->group(function () {
     // 短信验证码
-    Route::post('verificationCodes', 'VerificationCodesController@store')
-        ->name('verificationCodes.store');
-
+    Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
+    // 用户注册
+    Route::post('users', 'UsersController@store')->name('users.store');
 });
