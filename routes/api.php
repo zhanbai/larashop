@@ -41,7 +41,8 @@ Route::namespace('Api')->name('api')->group(function () {
     Route::middleware('throttle:' . config('api.rate_limits.access'))
         ->group(function () {
             // 游客可以访问的接口
-
+             // 商品列表，详情
+            Route::resource('products', 'ProductsController')->only(['index', 'show']);
             // 某个用户的详情
             Route::get('users/{user}', 'UsersController@show')
                 ->name('users.show');
