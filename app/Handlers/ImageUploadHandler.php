@@ -2,6 +2,7 @@
 
 namespace App\Handlers;
 
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 
@@ -15,10 +16,6 @@ class ImageUploadHandler
         // 文件夹切割能让查找效率更高。
         $folder_name = "uploads/images/$folder/" . date("Ym/d", time());
 
-        // 文件具体存储的物理路径，`public_path()` 获取的是 `public` 文件夹的物理路径。
-        // 值如：/home/Code/larashop/public/uploads/images/avatars/201709/21/
-        $upload_path = public_path() . '/' . $folder_name;
-
         // 获取文件的后缀名，因图片从剪贴板里黏贴时后缀名为空，所以此处确保后缀一直存在
         $extension = strtolower($file->getClientOriginalExtension()) ?: 'png';
 
@@ -31,14 +28,13 @@ class ImageUploadHandler
             return false;
         }
 
-        // 将图片移动到我们的目标存储路径中
-        $file->move($upload_path, $filename);
+        // 将图片保存到我们的目标存储路径中
+        $file->storeAs($folder_name, $filename);
 
         // 如果限制了图片宽度，就进行裁剪
         if ($max_width && $extension != 'gif') {
-
             // 此类中封装的函数，用于裁剪图片
-            $this->reduceSize($upload_path . '/' . $filename, $max_width);
+            $this->reduceSize(Storage::path($folder_name . '/' . $filename), $max_width);
         }
 
         return [

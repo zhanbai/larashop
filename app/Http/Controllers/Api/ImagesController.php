@@ -8,6 +8,7 @@ use App\Http\Requests\Api\ImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImagesController extends Controller

@@ -29,7 +29,7 @@ class UsersController extends AdminController
         $grid->column('id', __('ID'));
         $grid->column('name', __('User Name'));
         $grid->column('phone', __('Phone'));
-        $grid->column('avatar', __('Avatar'))->image(config('app.url'));
+        $grid->column('avatar', __('Avatar'))->image(config('storage.url'));
         $grid->column('created_at', __('Created at'));
 
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
