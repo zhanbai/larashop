@@ -223,7 +223,7 @@ return [
          * or specific method to path like: get:admin/auth/logs.
          */
         'except' => [
-            env('ADMIN_ROUTE_PREFIX', 'admin').'/auth/logs*',
+            env('ADMIN_ROUTE_PREFIX', 'admin') . '/auth/logs*',
         ],
     ],
 
@@ -348,9 +348,7 @@ return [
     'minify_assets' => [
 
         // Assets will not be minified.
-        'excepts' => [
-
-        ],
+        'excepts' => [],
 
     ],
 
@@ -405,6 +403,44 @@ return [
     |
     */
     'extensions' => [
-
+        // 新增编辑器配置开始
+        'quill' => [
+            // If the value is set to false, this extension will be disabled
+            'enable' => true,
+            'config' => [
+                'modules' => [
+                    'syntax' => true,
+                    'toolbar' =>
+                    [
+                        ['size' => []],
+                        ['header' => []],
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        ['script' => 'super'],
+                        ['script' => 'sub'],
+                        ['color' => []],
+                        ['background' => []],
+                        'blockquote',
+                        'code-block',
+                        ['list' => 'ordered'],
+                        ['list' => 'bullet'],
+                        ['indent' => '-1'],
+                        ['indent' => '+1'],
+                        'direction',
+                        ['align' => []],
+                        'link',
+                        'image',
+                        'video',
+                        'formula',
+                        'clean'
+                    ],
+                ],
+                'theme' => 'snow',
+                'height' => '200px',
+            ]
+        ]
+        // 新增编辑器配置结束
     ],
 ];
