@@ -15,11 +15,11 @@ class CreateProductSkusTable extends Migration
     {
         Schema::create('product_skus', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('description');
-            $table->decimal('price', 10, 2);
-            $table->unsignedInteger('stock');
-            $table->unsignedBigInteger('product_id');
+            $table->string('title')->comment('SKU 名称');
+            $table->string('description')->comment('SKU 描述');
+            $table->decimal('price', 10, 2)->comment('SKU 价格');
+            $table->unsignedInteger('stock')->comment('库存');
+            $table->unsignedBigInteger('product_id')->comment('所属商品 ID');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
