@@ -74,4 +74,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             ->withTimestamps()
             ->orderBy('user_favorite_products.created_at', 'desc');
     }
+
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
 }

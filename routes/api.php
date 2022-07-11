@@ -45,6 +45,8 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::get('user', 'UsersController@me')->name('user.show');
                 // 编辑登录用户信息
                 Route::post('user', 'UsersController@update')->name('user.update');
+                // 当前用户的收获地址列表
+                Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
                 // 收藏商品
                 Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
                 // 取消收藏商品
