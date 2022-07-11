@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\VerificationCodesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::namespace('Api')->name('api')->group(function () {
+Route::namespace('Api')->name('api.')->group(function () {
     Route::middleware('throttle:' . config('api.rate_limits.sign'))
         ->group(function () {
             // 图片验证码
@@ -48,6 +47,10 @@ Route::namespace('Api')->name('api')->group(function () {
                 Route::get('user', 'UsersController@me')->name('user.show');
                 // 编辑登录用户信息
                 Route::patch('user', 'UsersController@update')->name('user.update');
+                // 收藏商品
+                Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
+                // 取消收藏商品
+                Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
             });
         });
 });
