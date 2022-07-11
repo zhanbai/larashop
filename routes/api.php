@@ -36,8 +36,6 @@ Route::namespace('Api')->name('api.')->group(function () {
             // 游客可以访问的接口
             // 某个用户的详情
             Route::get('users/{user}', 'UsersController@show')->name('users.show');
-            // 商品列表，详情
-            Route::resource('products', 'ProductsController')->only(['index', 'show']);
 
             // 登录后可以访问的接口
             Route::middleware('auth:api')->group(function () {
@@ -51,6 +49,11 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
                 // 取消收藏商品
                 Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
+                // 收藏商品列表
+                Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
             });
+
+            // 商品列表，详情
+            Route::resource('products', 'ProductsController')->only(['index', 'show']);
         });
 });

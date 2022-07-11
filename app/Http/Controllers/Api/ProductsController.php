@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\UserFavoriteProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -64,7 +65,7 @@ class ProductsController extends Controller
 
         $user->favoriteProducts()->attach($product);
 
-        return [];
+        return response(null, 204);
     }
 
     public function disfavor(Product $product, Request $request)
@@ -72,6 +73,13 @@ class ProductsController extends Controller
         $user = $request->user();
         $user->favoriteProducts()->detach($product);
 
-        return [];
+        return response(null, 204);
+    }
+
+    public function favorites(Request $request)
+    {
+        $products = $request->user()->favoriteProducts()->paginate();
+        
+        return new ProductResource($products);
     }
 }
