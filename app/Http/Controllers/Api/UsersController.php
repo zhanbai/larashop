@@ -6,7 +6,6 @@ use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Image;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -16,13 +15,13 @@ class UsersController extends Controller
     {
         $verifyData = Cache::get($request->verification_key);
 
-       if (!$verifyData) {
-           abort(403, '验证码已失效');
+        if (!$verifyData) {
+            $this->errorResponse(403, '验证码已失效');
         }
 
         if (!hash_equals($verifyData['code'], $request->verification_code)) {
             // 返回401
-            throw new AuthenticationException('验证码错误');
+            $this->errorResponse(401, '验证码错误');
         }
 
         $user = User::create([
