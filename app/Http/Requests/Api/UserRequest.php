@@ -11,8 +11,8 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        switch ($this->method()) {
-            case 'POST':
+        switch ($this->path()) {
+            case 'api/users':
                 return [
                     'name' => 'required|between:3,25|regex:/^[A-Za-z0-9\-\_]+$/|unique:users,name',
                     'password' => 'required|string|min:6',
@@ -20,7 +20,7 @@ class UserRequest extends FormRequest
                     'verification_code' => 'required|string',
                 ];
                 break;
-            case 'PATCH':
+            case 'api/user':
                 $userId = auth('api')->id();
 
                 return [

@@ -26,9 +26,9 @@ Route::namespace('Api')->name('api.')->group(function () {
             // 登录
             Route::post('authorizations', 'AuthorizationsController@store')->name('authorizations.store');
             // 刷新token
-            Route::put('authorizations/current', 'AuthorizationsController@update')->name('authorizations.update');
+            Route::post('authorizations/current/update', 'AuthorizationsController@update')->name('authorizations.update');
             // 删除token
-            Route::delete('authorizations/current', 'AuthorizationsController@destroy')->name('authorizations.destroy');
+            Route::post('authorizations/current/destroy', 'AuthorizationsController@destroy')->name('authorizations.destroy');
         });
 
     Route::middleware('throttle:' . config('api.rate_limits.access'))
@@ -44,11 +44,11 @@ Route::namespace('Api')->name('api.')->group(function () {
                 // 当前登录用户信息
                 Route::get('user', 'UsersController@me')->name('user.show');
                 // 编辑登录用户信息
-                Route::patch('user', 'UsersController@update')->name('user.update');
+                Route::post('user', 'UsersController@update')->name('user.update');
                 // 收藏商品
                 Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
                 // 取消收藏商品
-                Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
+                Route::post('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
                 // 收藏商品列表
                 Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
             });

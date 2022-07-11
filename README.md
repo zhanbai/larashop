@@ -2,9 +2,10 @@
 
 ## 关于
 
+> 考虑到有些客户端只支持 `GET` 和 `POST` 请求，所以没有完全遵守 RESTful 设计风格。
+
 依托 [Laravel Template](https://github.com/zhanbai/laravel-template) 模板实现的开源电商系统。
 
-- 接口遵循 RESTful 软件设计风格
 - 用户模块
 - 管理后台
 - 商品模块
