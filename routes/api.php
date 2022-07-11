@@ -44,7 +44,7 @@ Route::namespace('Api')->name('api.')->group(function () {
                 // 当前登录用户信息
                 Route::get('user', 'UsersController@me')->name('user.show');
                 // 编辑登录用户信息
-                Route::post('user', 'UsersController@update')->name('user.update');
+                Route::post('user/update', 'UsersController@update')->name('user.update');
                 // 当前用户的收获地址列表
                 Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
                 // 收藏商品
@@ -53,8 +53,10 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::post('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
                 // 收藏商品列表
                 Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
-                // 添加商品到购物车
-                Route::post('cart', 'CartController@add')->name('cart.add');
+                // 购物车列表，添加商品到购物车
+                Route::resource('cart', 'CartController')->only(['index', 'store']);
+                // 从购物车中移除商品
+                Route::post('cart/{sku}/destory', 'CartController@destroy')->name('cart.destroy');
             });
 
             // 商品列表，详情

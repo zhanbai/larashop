@@ -20,7 +20,7 @@ class UserRequest extends FormRequest
                     'verification_code' => 'required|string',
                 ];
                 break;
-            case 'api/user':
+            case 'api/user/update':
                 $userId = auth('api')->id();
 
                 return [
