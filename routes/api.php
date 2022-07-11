@@ -53,6 +53,8 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::post('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
                 // 收藏商品列表
                 Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
+                // 添加商品到购物车
+                Route::post('cart', 'CartController@add')->name('cart.add');
             });
 
             // 商品列表，详情

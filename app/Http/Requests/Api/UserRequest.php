@@ -33,21 +33,33 @@ class UserRequest extends FormRequest
         }
     }
 
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
     public function attributes()
     {
         return [
-            'verification_key' => '短信验证码 key',
+            'name'              => '用户名',
+            'password'          => '密码',
+            'verification_key'  => '短信验证码 key',
             'verification_code' => '短信验证码',
+            'email'             => '邮箱',
+            'introduction'      => '介绍',
+            'avatar_image_id'   => '头像图片 ID'
         ];
     }
 
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
-            'name.unique' => '用户名已被占用，请重新填写。',
             'name.regex' => '用户名只支持英文、数字、横杆和下划线。',
-            'name.between' => '用户名必须介于 3 - 25 个字符之间。',
-            'name.required' => '用户名不能为空。',
         ];
     }
 }

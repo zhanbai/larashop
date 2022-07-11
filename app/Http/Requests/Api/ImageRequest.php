@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class ImageRequest extends FormRequest
 {
     /**
@@ -26,6 +24,24 @@ class ImageRequest extends FormRequest
         return $rules;
     }
 
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'type'  => '图片类型',
+            'image' => '图片',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
     public function messages()
     {
         return [

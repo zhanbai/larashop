@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -40,8 +41,37 @@ class Handler extends ExceptionHandler
         });
     }
 
+    /**
+     * Convert a validation exception into a JSON response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function invalidJson($request, ValidationException $e)
+    {
+        return response()->json([
+            'message' => $e->validator->errors()->first(),
+            'errors' => $e->errors(),
+            'code' => $e->getCode(),
+        ], $e->status);
+    }
+
+    /**
+     * Convert the given exception to an array.
+     *
+     * @param  \Throwable  $e
+     * @return array
+     */
     protected function convertExceptionToArray(Throwable $e)
     {
+        if ($e instanceof ValidationException) {
+            return [
+                'message' => $e->validator->errors()->first(),
+                'code' => $e->getCode(),
+            ];
+        }
+
         return config('app.debug') ? [
             'message' => $e->getMessage(),
             'code' => $e->getCode(),

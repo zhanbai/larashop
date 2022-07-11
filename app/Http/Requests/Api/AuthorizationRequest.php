@@ -16,4 +16,17 @@ class AuthorizationRequest extends FormRequest
             'password' => 'required|alpha_dash|min:6',
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'username' => '用户名',
+            'password' => '密码',
+        ];
+    }
 }

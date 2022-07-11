@@ -15,4 +15,17 @@ class CaptchaRequest extends FormRequest
             'phone' => 'required|phone:CN,mobile|unique:users',
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'username' => '用户名',
+            'password' => '密码',
+        ];
+    }
 }
