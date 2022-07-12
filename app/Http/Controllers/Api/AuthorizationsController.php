@@ -17,7 +17,7 @@ class AuthorizationsController extends Controller
         $credentials['password'] = $request->password;
 
         if (!$token = auth('api')->attempt($credentials)) {
-            $this->errorResponse(401, '用户名或密码错误');
+            error_response(401, '用户名或密码错误');
         }
 
         return $this->respondWithToken($token);

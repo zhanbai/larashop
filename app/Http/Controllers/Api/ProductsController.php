@@ -49,7 +49,7 @@ class ProductsController extends Controller
     {
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         if (!$product->on_sale) {
-            $this->errorResponse(400, '商品未上架');
+            error_response(400, '商品未上架');
         }
 
         return $product;
