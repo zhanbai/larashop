@@ -58,7 +58,7 @@ Route::namespace('Api')->name('api.')->group(function () {
                 // 从购物车中移除商品
                 Route::post('cart/{sku}/destory', 'CartController@destroy')->name('cart.destroy');
                 // 创建订单
-                Route::resource('orders', 'OrdersController')->only(['store']);
+                Route::resource('orders', 'OrdersController')->only(['index', 'store']);
             });
 
             // 商品列表，详情
