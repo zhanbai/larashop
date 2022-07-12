@@ -42,7 +42,7 @@ class ProductsController extends Controller
 
         $products = $builder->paginate();
 
-        return ProductResource::collection($products);
+        return $products;
     }
 
     public function show(Product $product, Request $request)
@@ -52,7 +52,7 @@ class ProductsController extends Controller
             $this->errorResponse(400, '商品未上架');
         }
 
-        return new ProductResource($product);
+        return $product;
     }
 
     public function favor(Product $product, Request $request)
@@ -64,7 +64,7 @@ class ProductsController extends Controller
 
         $user->favoriteProducts()->attach($product);
 
-        return response(null);
+        return null;
     }
 
     public function disfavor(Product $product, Request $request)
@@ -72,13 +72,13 @@ class ProductsController extends Controller
         $user = $request->user();
         $user->favoriteProducts()->detach($product);
 
-        return response(null);
+        return null;
     }
 
     public function favorites(Request $request)
     {
         $products = $request->user()->favoriteProducts()->paginate();
-        
-        return new ProductResource($products);
+
+        return $products;
     }
 }

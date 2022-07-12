@@ -14,8 +14,9 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $cartItems = $request->user()->cartItems()->with(['productSku.product'])->get();
+        $addresses = $request->user()->addresses()->orderBy('last_used_at', 'desc')->get();
 
-        return new CartResource($cartItems);
+        return ['cartItems' => $cartItems, 'addresses' => $addresses];
     }
 
     public function store(AddCartRequest $request)
@@ -32,7 +33,6 @@ class CartController extends Controller
                 'amount' => $cart->amount + $amount,
             ]);
         } else {
-
             // 否则创建一个新的购物车记录
             $cart = new CartItem(['amount' => $amount]);
             $cart->user()->associate($user);
@@ -40,13 +40,13 @@ class CartController extends Controller
             $cart->save();
         }
 
-        return response(null);
+        return null;
     }
 
     public function destroy(ProductSku $sku, Request $request)
     {
         $request->user()->cartItems()->where('product_sku_id', $sku->id)->delete();
 
-        return response(null);
+        return null;
     }
 }

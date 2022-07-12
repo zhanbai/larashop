@@ -10,6 +10,6 @@ class UserAddressesController extends Controller
 {
     public function index(Request $request)
     {
-        return new UserAddressResource($request->user()->addresses);
+        return $request->user()->addresses;
     }
 }

@@ -25,6 +25,6 @@ class CaptchasController extends Controller
             'captcha_image_content' => $captcha->inline()
         ];
 
-        return response()->json($result)->setStatusCode(201);
+        return $result;
     }
 }

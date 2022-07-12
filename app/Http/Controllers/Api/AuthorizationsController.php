@@ -32,15 +32,15 @@ class AuthorizationsController extends Controller
     public function destroy()
     {
         auth('api')->logout();
-        return response(null);
+        return null;
     }
 
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return [
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
+        ];
     }
 }
