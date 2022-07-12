@@ -235,5 +235,6 @@ return [
 
     // 关闭订单时间
     'order_ttl' => 1800,
-
+    // 内网穿透
+    'ngrok_url' => env('NGROK_URL'),
 ];
