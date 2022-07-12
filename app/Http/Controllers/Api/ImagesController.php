@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Handlers\ImageUploadHandler;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;

@@ -36,7 +36,12 @@ Route::namespace('Api')->name('api.')->group(function () {
             // 游客可以访问的接口
             // 某个用户的详情
             Route::get('users/{user}', 'UsersController@show')->name('users.show');
-
+            // 支付宝支付服务端回调
+            Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
+            // 唤起支付宝支付
+            Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
+            // 支付宝支付前端回调
+            Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
             // 登录后可以访问的接口
             Route::middleware('auth:api')->group(function () {
                 // 上传图片
