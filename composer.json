@@ -19,7 +19,8 @@
         "overtrue/easy-sms": "^2.1",
         "overtrue/laravel-lang": "~5.0",
         "propaganistas/laravel-phone": "^4.3",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "yansongda/pay": "~2.10"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
