@@ -38,10 +38,9 @@ Route::namespace('Api')->name('api.')->group(function () {
             Route::get('users/{user}', 'UsersController@show')->name('users.show');
             // 支付宝支付服务端回调
             Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
-            // 唤起支付宝支付
-            Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
-            // 支付宝支付前端回调
-            Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
+            // 微信支付服务端回调
+            Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
+
             // 登录后可以访问的接口
             Route::middleware('auth:api')->group(function () {
                 // 上传图片
@@ -64,6 +63,12 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::post('cart/{sku}/destory', 'CartController@destroy')->name('cart.destroy');
                 // 创建订单
                 Route::resource('orders', 'OrdersController')->only(['index', 'store', 'show']);
+                // 唤起微信支付
+                Route::get('payment/{order}/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
+                // 唤起支付宝支付
+                Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
+                // 支付宝支付前端回调
+                Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
             });
 
             // 商品列表，详情
