@@ -75,6 +75,8 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
                 // 进行评价
                 Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
+                // 申请退款
+                Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
             });
 
             // 商品列表，详情
