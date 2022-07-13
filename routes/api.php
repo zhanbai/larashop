@@ -40,6 +40,8 @@ Route::namespace('Api')->name('api.')->group(function () {
             Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
             // 微信支付服务端回调
             Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
+            // 微信支付退款回调
+            Route::post('payment/wechat/refund_notify', 'PaymentController@wechatRefundNotify')->name('payment.wechat.refund_notify');
 
             // 登录后可以访问的接口
             Route::middleware('auth:api')->group(function () {
