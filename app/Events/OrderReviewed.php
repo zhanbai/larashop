@@ -4,16 +4,15 @@ namespace App\Events;
 
 use App\Models\Order;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderPaid
+class OrderReviewed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     protected $order;
-
+    
     /**
      * Create a new event instance.
      *

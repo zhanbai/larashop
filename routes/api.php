@@ -71,6 +71,10 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
                 // 确认收货
                 Route::post('orders/{order}/received', 'OrdersController@received')->name('orders.received');
+                // 评价详情
+                Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
+                // 进行评价
+                Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
             });
 
             // 商品列表，详情
