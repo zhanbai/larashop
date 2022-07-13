@@ -69,6 +69,8 @@ Route::namespace('Api')->name('api.')->group(function () {
                 Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
                 // 支付宝支付前端回调
                 Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
+                // 确认收货
+                Route::post('orders/{order}/received', 'OrdersController@received')->name('orders.received');
             });
 
             // 商品列表，详情

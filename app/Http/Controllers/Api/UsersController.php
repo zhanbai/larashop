@@ -16,12 +16,12 @@ class UsersController extends Controller
         $verifyData = Cache::get($request->verification_key);
 
         if (!$verifyData) {
-            error_response(403, '验证码已失效');
+            error_response('验证码已失效', 403);
         }
 
         if (!hash_equals($verifyData['code'], $request->verification_code)) {
             // 返回401
-            error_response(401, '验证码错误');
+            error_response('验证码错误', 401);
         }
 
         $user = User::create([

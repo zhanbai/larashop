@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-function error_response($statusCode, $message = null, $code = 0)
+function error_response($message = null, $statusCode = 400, $code = 0)
 {
     throw new HttpException($statusCode, $message, null, [], $code);
 }

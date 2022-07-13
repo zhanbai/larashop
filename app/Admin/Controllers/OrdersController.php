@@ -73,11 +73,11 @@ class OrdersController extends AdminController
     {
         // 判断当前订单是否已支付
         if (!$order->paid_at) {
-            error_response(400, '该订单未付款');
+            error_response('该订单未付款');
         }
         // 判断当前订单发货状态是否为未发货
         if ($order->ship_status !== Order::SHIP_STATUS_PENDING) {
-            error_response(400, '该订单已发货');
+            error_response('该订单已发货');
         }
         // Laravel 5.5 之后 validate 方法可以返回校验过的值
         $data = $this->validate($request, [

@@ -15,13 +15,13 @@ class VerificationCodesController extends Controller
         $captchaData = Cache::get($request->captcha_key);
 
         if (!$captchaData) {
-            error_response(403, '图片验证码已失效');
+            error_response('图片验证码已失效', 403);
         }
 
         if (!hash_equals($captchaData['code'], $request->captcha_code)) {
             // 验证错误就清除缓存
             Cache::forget($request->captcha_key);
-            error_response(401, '验证码错误');
+            error_response('验证码错误', 401);
         }
 
         $phone = $captchaData['phone'];
