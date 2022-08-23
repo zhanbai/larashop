@@ -15,7 +15,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        // 
+        //
     ];
 
     /**
@@ -50,11 +50,7 @@ class Handler extends ExceptionHandler
      */
     protected function invalidJson($request, ValidationException $e)
     {
-        return response()->json([
-            'message' => $e->validator->errors()->first(),
-            'errors' => $e->errors(),
-            'code' => $e->getCode(),
-        ], $e->status);
+        return fail(400, $e->validator->errors()->first());
     }
 
     /**
@@ -65,16 +61,9 @@ class Handler extends ExceptionHandler
      */
     protected function convertExceptionToArray(Throwable $e)
     {
-        if ($e instanceof ValidationException) {
-            return [
-                'message' => $e->validator->errors()->first(),
-                'code' => $e->getCode(),
-            ];
-        }
-
         return config('app.debug') ? [
-            'message' => $e->getMessage(),
-            'code' => $e->getCode(),
+            'code' => 500,
+            'msg' => $e->getMessage(),
             'exception' => get_class($e),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
@@ -82,8 +71,8 @@ class Handler extends ExceptionHandler
                 return Arr::except($trace, ['args']);
             })->all(),
         ] : [
-            'message' => $this->isHttpException($e) ? $e->getMessage() : '服务器错误',
-            'code' => $e->getCode(),
+            'code' => 500,
+            'msg' => $this->isHttpException($e) ? $e->getMessage() : '服务器错误',
         ];
     }
 }
