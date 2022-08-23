@@ -1,4 +1,4 @@
-# <p align="center">Larashop</p>
+# <p align="center">[Larashop](https://github.com/zhanbai/larashop)</p>
 
 ## 关于
 
