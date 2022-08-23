@@ -17,3 +17,18 @@ function ngrok_url($routeName, $parameters = [])
 
     return route($routeName, $parameters);
 }
+
+// API 成功信息返回封装
+function success($data = null)
+{
+    return response(['code' => 200, 'data' => $data, 'msg' => 'ok']);
+}
+
+// API 失败信息返回封装
+function fail($code = 400, $msg = 'fail')
+{
+    if (is_array($msg)) {
+        $msg = implode(';', $msg);
+    }
+    return response(['code' => $code, 'msg' => $msg]);
+}
