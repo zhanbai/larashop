@@ -29,14 +29,17 @@ $ composer install
 # 创建并修改 .env 文件内容，主要是数据库信息
 $ cp .env.example .env
 
-# 执行数据库迁移
-$ php artisan migrate
+# 执行数据库迁移和恢复后台数据
+$ php artisan migrate && php artisan db:seed --class=AdminTablesSeeder
+
+# 创建管理员用户
+$ php artisan admin:create-user
 
 # 启动服务
 $ php artisan serve
 ```
 
-浏览器访问 http://127.0.0.1:8000
+浏览器访问 http://127.0.0.1:8000 或 http://127.0.0.1:8000/admin
 
 ## 协议
 
