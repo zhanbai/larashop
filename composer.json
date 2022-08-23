@@ -20,6 +20,7 @@
         "overtrue/easy-sms": "^2.1",
         "overtrue/laravel-lang": "~5.0",
         "propaganistas/laravel-phone": "^4.3",
+        "swooletw/laravel-swoole": "^2.12",
         "tymon/jwt-auth": "^1.0",
         "yansongda/pay": "~2.10"
     },
