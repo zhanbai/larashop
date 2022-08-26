@@ -48,7 +48,7 @@ class OrderService
                 $item->save();
                 $totalAmount += $sku->price * $data['amount'];
                 if ($sku->decreaseStock($data['amount']) <= 0) {
-                    error_response('该商品库存不足');
+                    fail('该商品库存不足');
                 }
             }
             // 更新订单总金额

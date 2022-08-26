@@ -6,8 +6,6 @@ use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\Api\ImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImagesController extends Controller
@@ -24,6 +22,6 @@ class ImagesController extends Controller
         $image->user_id = $user->id;
         $image->save();
 
-        return new ImageResource($image);
+        return success(new ImageResource($image));
     }
 }

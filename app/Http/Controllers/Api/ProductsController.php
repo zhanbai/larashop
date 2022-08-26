@@ -42,17 +42,17 @@ class ProductsController extends Controller
 
         $products = $builder->paginate();
 
-        return $products;
+        return success($products);
     }
 
     public function show(Product $product, Request $request)
     {
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         if (!$product->on_sale) {
-            error_response('商品未上架');
+            fail('商品未上架');
         }
 
-        return $product;
+        return success($product);
     }
 
     public function favor(Product $product, Request $request)
@@ -64,7 +64,7 @@ class ProductsController extends Controller
 
         $user->favoriteProducts()->attach($product);
 
-        return null;
+        return success();
     }
 
     public function disfavor(Product $product, Request $request)
@@ -72,13 +72,13 @@ class ProductsController extends Controller
         $user = $request->user();
         $user->favoriteProducts()->detach($product);
 
-        return null;
+        return success();
     }
 
     public function favorites(Request $request)
     {
         $products = $request->user()->favoriteProducts()->paginate();
 
-        return $products;
+        return success($products);
     }
 }

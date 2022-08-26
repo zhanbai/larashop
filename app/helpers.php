@@ -25,7 +25,7 @@ function success($data = null)
 }
 
 // API 失败信息返回封装
-function fail($code = 400, $msg = 'fail')
+function fail($msg = 'fail', $code = 400)
 {
     if (is_array($msg)) {
         $msg = implode(';', $msg);

@@ -17,7 +17,7 @@ class AuthorizationsController extends Controller
         $credentials['password'] = $request->password;
 
         if (!$token = auth('api')->attempt($credentials)) {
-            error_response('用户名或密码错误', 401);
+            fail('用户名或密码错误', 401);
         }
 
         return $this->respondWithToken($token);
@@ -32,15 +32,15 @@ class AuthorizationsController extends Controller
     public function destroy()
     {
         auth('api')->logout();
-        return null;
+        return success();
     }
 
     protected function respondWithToken($token)
     {
-        return [
+        return success([
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
-        ];
+        ]);
     }
 }

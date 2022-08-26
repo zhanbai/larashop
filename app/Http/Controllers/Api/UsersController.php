@@ -16,12 +16,12 @@ class UsersController extends Controller
         $verifyData = Cache::get($request->verification_key);
 
         if (!$verifyData) {
-            error_response('验证码已失效', 403);
+            fail('验证码已失效', 403);
         }
 
         if (!hash_equals($verifyData['code'], $request->verification_code)) {
             // 返回401
-            error_response('验证码错误', 401);
+            fail('验证码错误', 401);
         }
 
         $user = User::create([
@@ -33,17 +33,17 @@ class UsersController extends Controller
         // 清除验证码缓存
         Cache::forget($request->verification_key);
 
-        return (new UserResource($user))->showSensitiveFields();
+        return success((new UserResource($user))->showSensitiveFields());
     }
 
     public function show(User $user, Request $request)
     {
-        return new UserResource($user);
+        return success(new UserResource($user));
     }
 
     public function me(Request $request)
     {
-        return (new UserResource($request->user()))->showSensitiveFields();
+        return success((new UserResource($request->user()))->showSensitiveFields());
     }
 
     public function update(UserRequest $request)
@@ -60,6 +60,6 @@ class UsersController extends Controller
 
         $user->update($attributes);
 
-        return (new UserResource($user))->showSensitiveFields();
+        return success((new UserResource($user))->showSensitiveFields());
     }
 }

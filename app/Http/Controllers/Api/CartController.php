@@ -22,20 +22,20 @@ class CartController extends Controller
         $cartItems = $this->cartService->index();
         $addresses = $request->user()->addresses()->orderBy('last_used_at', 'desc')->get();
 
-        return ['cartItems' => $cartItems, 'addresses' => $addresses];
+        return success(['cartItems' => $cartItems, 'addresses' => $addresses]);
     }
 
     public function store(AddCartRequest $request)
     {
         $this->cartService->store($request->input('sku_id'), $request->input('amount'));
 
-        return null;
+        return success();
     }
 
     public function destroy(ProductSku $sku, Request $request)
     {
         $this->cartService->destroy($sku->id);
 
-        return null;
+        return success();
     }
 }

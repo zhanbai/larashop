@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\CaptchaRequest;
 use Gregwar\Captcha\CaptchaBuilder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use  Illuminate\Support\Str;
 
@@ -25,6 +24,6 @@ class CaptchasController extends Controller
             'captcha_image_content' => $captcha->inline()
         ];
 
-        return $result;
+        return success($result);
     }
 }
