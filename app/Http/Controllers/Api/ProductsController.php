@@ -52,6 +52,8 @@ class ProductsController extends Controller
             fail('商品未上架');
         }
 
+        $product->skus = $product->skus;
+
         return success($product);
     }
 
