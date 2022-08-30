@@ -16,18 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Api')->name('api.')->group(function () {
     Route::middleware('throttle:' . config('api.rate_limits.sign'))
         ->group(function () {
-            // 图片验证码
-            Route::post('captchas', 'CaptchasController@store')->name('captchas.store');
             // 短信验证码
-            Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
-            // 用户注册
+            Route::post('smsCodes', 'SmsCodesController@store')->name('smsCodes.store');
+            // 用户登录/注册
             Route::post('users', 'UsersController@store')->name('users.store');
-            // 登录
-            Route::post('authorizations', 'AuthorizationsController@store')->name('authorizations.store');
             // 刷新token
-            Route::post('authorizations/current/update', 'AuthorizationsController@update')->name('authorizations.update');
+            Route::post('users/token/update', 'UsersController@updateToken')->name('users.updateToken');
             // 删除token
-            Route::post('authorizations/current/destroy', 'AuthorizationsController@destroy')->name('authorizations.destroy');
+            Route::post('users/token/destroy', 'UsersController@destroyToken')->name('users.destroyToken');
         });
 
     Route::middleware('throttle:' . config('api.rate_limits.access'))

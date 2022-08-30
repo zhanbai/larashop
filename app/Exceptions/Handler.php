@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
@@ -50,7 +51,7 @@ class Handler extends ExceptionHandler
      */
     protected function invalidJson($request, ValidationException $e)
     {
-        return fail(400, $e->validator->errors()->first());
+        return fail($e->validator->errors()->first(), 400);
     }
 
     /**
@@ -74,5 +75,19 @@ class Handler extends ExceptionHandler
             'code' => 500,
             'msg' => $this->isHttpException($e) ? $e->getMessage() : '服务器错误',
         ];
+    }
+
+    /**
+     * Convert an authentication exception into a response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->shouldReturnJson($request, $exception)
+            ? fail('请先进行认证', 401)
+            : redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 }

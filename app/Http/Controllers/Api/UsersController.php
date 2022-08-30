@@ -13,25 +13,29 @@ class UsersController extends Controller
 {
     public function store(UserRequest $request)
     {
-        $verifyData = Cache::get($request->verification_key);
+        $smsCodeKey = 'smsCode_' . $request->phone;
+        $smsCode = Cache::get($smsCodeKey);
 
-        if (!$verifyData) {
-            fail('验证码已失效', 403);
+        if (empty($smsCode)) {
+            return fail('验证码已失效', 401);
         }
 
-        if (!hash_equals($verifyData['code'], $request->verification_code)) {
+        if (!hash_equals($smsCode, $request->sms_code)) {
             // 返回401
-            fail('验证码错误', 401);
+            return fail('验证码错误', 401);
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'phone' => $verifyData['phone'],
-            'password' => $request->password,
-        ]);
+        $user = User::where('phone', $request->phone)->first();
+        
+        if (empty($user)) {
+            $user = User::create([
+                'name' => $request->phone,
+                'phone' => $request->phone,
+            ]);
+        }
 
         // 清除验证码缓存
-        Cache::forget($request->verification_key);
+        Cache::forget($smsCodeKey);
 
         return success((new UserResource($user))->showSensitiveFields());
     }
@@ -61,5 +65,26 @@ class UsersController extends Controller
         $user->update($attributes);
 
         return success((new UserResource($user))->showSensitiveFields());
+    }
+
+    public function updateToken()
+    {
+        $token = auth('api')->refresh();
+        return $this->respondWithToken($token);
+    }
+
+    public function destroyToken()
+    {
+        auth('api')->logout();
+        return success();
+    }
+
+    protected function respondWithToken($token)
+    {
+        return success([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }
