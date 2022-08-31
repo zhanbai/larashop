@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Models\UserAddress;
 use App\Models\Order;
 use App\Models\ProductSku;
 use App\Jobs\CloseOrder;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class OrderService
@@ -40,7 +38,7 @@ class OrderService
                 $item->save();
                 $totalAmount += $sku->price * $data['amount'];
                 if ($sku->decreaseStock($data['amount']) <= 0) {
-                    fail('该商品库存不足');
+                    return fail('该商品库存不足');
                 }
             }
             // 更新订单总金额

@@ -15,7 +15,7 @@ class PaymentController extends Controller
         $this->authorize('own', $order);
         // 校验订单状态
         if ($order->paid_at || $order->closed) {
-            fail('订单状态不正确');
+            return fail('订单状态不正确');
         }
         // scan 方法为拉起微信扫码支付
         return app('wechat_pay')->wap([
@@ -88,7 +88,7 @@ class PaymentController extends Controller
         $this->authorize('own', $order);
         // 订单已支付或者已关闭
         if ($order->paid_at || $order->closed) {
-            fail('订单状态不正确');
+            return fail('订单状态不正确');
         }
 
         // 调用支付宝的网页支付
@@ -105,7 +105,7 @@ class PaymentController extends Controller
         try {
             app('alipay')->verify();
         } catch (\Exception $e) {
-            fail('数据不正确');
+            return fail('数据不正确');
         }
 
         return success();

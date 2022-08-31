@@ -48,7 +48,7 @@ class ProductsController extends Controller
     {
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         if (!$product->on_sale) {
-            fail('商品未上架');
+            return fail('商品未上架');
         }
 
         $product->skus = $product->skus;

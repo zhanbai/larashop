@@ -39,7 +39,7 @@ class OrdersController extends Controller
         $this->authorize('own', $order);
         $order = $order->load(['items.productSku', 'items.product']);
         $order->pay_time_left = 0;
-        
+
         if (empty($order->paid_at)) {
             $leftTime = config('app.order_ttl') - (time() - strtotime($order->created_at));
             $order->pay_time_left = $leftTime > 0 ? $leftTime : 0;
@@ -55,7 +55,7 @@ class OrdersController extends Controller
 
         // 判断订单的发货状态是否为已发货
         if ($order->ship_status !== Order::SHIP_STATUS_DELIVERED) {
-            fail('发货状态不正确');
+            return fail('发货状态不正确');
         }
 
         // 更新发货状态为已收到
@@ -70,7 +70,7 @@ class OrdersController extends Controller
         $this->authorize('own', $order);
         // 判断是否已经支付
         if (!$order->paid_at) {
-            fail('该订单未支付，不可评价');
+            return fail('该订单未支付，不可评价');
         }
         // 使用 load 方法加载关联数据，避免 N + 1 性能问题
         return success($order->load(['items.productSku', 'items.product']));
@@ -81,11 +81,11 @@ class OrdersController extends Controller
         // 校验权限
         $this->authorize('own', $order);
         if (!$order->paid_at) {
-            fail('该订单未支付，不可评价');
+            return fail('该订单未支付，不可评价');
         }
         // 判断是否已经评价
         if ($order->reviewed) {
-            fail('该订单已评价，不可重复提交');
+            return fail('该订单已评价，不可重复提交');
         }
         $reviews = $request->input('reviews');
         // 开启事务
@@ -114,11 +114,11 @@ class OrdersController extends Controller
         $this->authorize('own', $order);
         // 判断订单是否已付款
         if (!$order->paid_at) {
-            fail('该订单未支付，不可退款');
+            return fail('该订单未支付，不可退款');
         }
         // 判断订单退款状态是否正确
         if ($order->refund_status !== Order::REFUND_STATUS_PENDING) {
-            fail('该订单已经申请过退款，请勿重复申请');
+            return fail('该订单已经申请过退款，请勿重复申请');
         }
         // 将用户输入的退款理由放到订单的 extra 字段中
         $extra                  = $order->extra ?: [];

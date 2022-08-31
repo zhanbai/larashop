@@ -74,11 +74,11 @@ class OrdersController extends AdminController
     {
         // 判断当前订单是否已支付
         if (!$order->paid_at) {
-            fail('该订单未付款');
+            return fail('该订单未付款');
         }
         // 判断当前订单发货状态是否为未发货
         if ($order->ship_status !== Order::SHIP_STATUS_PENDING) {
-            fail('该订单已发货');
+            return fail('该订单已发货');
         }
         // Laravel 5.5 之后 validate 方法可以返回校验过的值
         $data = $this->validate($request, [
@@ -104,7 +104,7 @@ class OrdersController extends AdminController
     {
         // 判断订单状态是否正确
         if ($order->refund_status !== Order::REFUND_STATUS_APPLIED) {
-            fail('订单状态不正确');
+            return fail('订单状态不正确');
         }
         // 是否同意退款
         if ($request->input('agree')) {
@@ -181,7 +181,7 @@ class OrdersController extends AdminController
                 break;
             default:
                 // 原则上不可能出现，这个只是为了代码健壮性
-                fail('未知订单支付方式：' . $order->payment_method);
+                return fail('未知订单支付方式：' . $order->payment_method);
                 break;
         }
     }
