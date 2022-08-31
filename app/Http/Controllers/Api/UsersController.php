@@ -26,7 +26,7 @@ class UsersController extends Controller
         }
 
         $user = User::where('phone', $request->phone)->first();
-        
+
         if (empty($user)) {
             $user = User::create([
                 'name' => $request->phone,
@@ -36,8 +36,10 @@ class UsersController extends Controller
 
         // 清除验证码缓存
         Cache::forget($smsCodeKey);
+        
+        $token = auth('api')->login($user);
 
-        return success((new UserResource($user))->showSensitiveFields());
+        return $this->respondWithToken($token);
     }
 
     public function show(User $user, Request $request)
