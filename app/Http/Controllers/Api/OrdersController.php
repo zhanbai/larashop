@@ -30,9 +30,8 @@ class OrdersController extends Controller
     public function store(OrderRequest $request, OrderService $orderService)
     {
         $user    = $request->user();
-        $address = UserAddress::find($request->input('address_id'));
 
-        return success($orderService->store($user, $address, $request->input('remark'), $request->input('items')));
+        return success($orderService->store($user, $request->input('remark'), $request->input('items')));
     }
 
     public function show(Order $order, Request $request)

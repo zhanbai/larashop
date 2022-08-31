@@ -12,20 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
-    public function store(User $user, UserAddress $address, $remark, $items)
+    public function store(User $user, $remark, $items)
     {
         // 开启一个数据库事务
-        $order = DB::transaction(function () use ($user, $address, $remark, $items) {
-            // 更新此地址的最后使用时间
-            $address->update(['last_used_at' => Carbon::now()]);
+        $order = DB::transaction(function () use ($user, $remark, $items) {
             // 创建一个订单
             $order   = new Order([
-                'address'      => [ // 将地址信息放入订单中
-                    'address'       => $address->full_address,
-                    'zip'           => $address->zip,
-                    'contact_name'  => $address->contact_name,
-                    'contact_phone' => $address->contact_phone,
-                ],
                 'remark'       => $remark,
                 'total_amount' => 0,
             ]);
@@ -55,8 +47,8 @@ class OrderService
             $order->update(['total_amount' => $totalAmount]);
 
             // 将下单的商品从购物车中移除
-            $skuIds = collect($items)->pluck('sku_id')->all();
-            app(CartService::class)->remove($skuIds);
+            // $skuIds = collect($items)->pluck('sku_id')->all();
+            // app(CartService::class)->remove($skuIds);
 
             return $order;
         });

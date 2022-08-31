@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('no')->unique()->comment('订单流水号');
             $table->unsignedBigInteger('user_id')->comment('下单的用户 ID');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->text('address')->comment('JSON 格式的收货地址');
+            $table->text('address')->comment('JSON 格式的收货地址')->nullable();
             $table->decimal('total_amount', 10, 2)->comment('订单金额');
             $table->text('remark')->nullable()->comment('订单备注');
             $table->dateTime('paid_at')->nullable()->comment('支付时间');
