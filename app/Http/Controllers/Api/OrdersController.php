@@ -29,7 +29,7 @@ class OrdersController extends Controller
 
     public function store(OrderRequest $request, OrderService $orderService)
     {
-        $user    = $request->user();
+        $user = $request->user();
 
         return success($orderService->store($user, $request->input('remark'), $request->input('items')));
     }
@@ -37,7 +37,15 @@ class OrdersController extends Controller
     public function show(Order $order, Request $request)
     {
         $this->authorize('own', $order);
-        return success($order->load(['items.productSku', 'items.product']));
+        $order = $order->load(['items.productSku', 'items.product']);
+        $order->pay_time_left = 0;
+        
+        if (empty($order->paid_at)) {
+            $leftTime = config('app.order_ttl') - (time() - strtotime($order->created_at));
+            $order->pay_time_left = $leftTime > 0 ? $leftTime : 0;
+        }
+
+        return success($order);
     }
 
     public function received(Order $order, Request $request)
