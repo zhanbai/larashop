@@ -15,15 +15,29 @@ use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
-    public function index(Request $request)
+    public function index(OrderRequest $request)
     {
         $orders = Order::query()
             // 使用 with 方法预加载，避免N + 1问题
             ->with(['items.product', 'items.productSku'])
             ->where('user_id', $request->user()->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate();
+            ->orderBy('created_at', 'desc');
 
+        $state = $request->input('state', -1);
+
+        switch ($state) {
+            case 0:
+                $orders = $orders->whereNull('paid_at')->where('closed', 0);
+                break;
+            case 0:
+                $orders = $orders->whereNotNull('paid_at')->orWhere('closed', 1);
+                break;
+            default:
+                break;
+        }
+
+        $orders = $orders->paginate();
+        
         return success($orders);
     }
 
