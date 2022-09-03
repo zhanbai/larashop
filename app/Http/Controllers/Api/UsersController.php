@@ -17,12 +17,12 @@ class UsersController extends Controller
         $smsCode = Cache::get($smsCodeKey);
 
         if (empty($smsCode)) {
-            return fail('验证码已失效', 401);
+            return fail('验证码已失效', 400);
         }
 
         if (!hash_equals($smsCode, $request->sms_code)) {
             // 返回401
-            return fail('验证码错误', 401);
+            return fail('验证码错误', 400);
         }
 
         $user = User::where('phone', $request->phone)->first();
@@ -36,7 +36,7 @@ class UsersController extends Controller
 
         // 清除验证码缓存
         Cache::forget($smsCodeKey);
-        
+
         $token = auth('api')->login($user);
 
         return $this->respondWithToken($token);
